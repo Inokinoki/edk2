@@ -1,6 +1,18 @@
 # Build EDK II on macOS
 
-In `EmulatorPkg/` folder, there is a script named `build.sh`, run it after running host tools building.
+First of all, run `source envsetup.sh` to add some utilities.
+
+## Most packages
+
+Run:
+
+```
+build XXXXPkg/XXXXPkg.dsc
+```
+
+## Emulator Package
+
+In `EmulatorPkg/` folder, there is a script named `build.sh`, run it.
 
 There could some errors associated with X11 stuff. Here are the solutions.
 
