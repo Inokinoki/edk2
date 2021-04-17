@@ -126,17 +126,17 @@
    GCC:*_*_X64_PP_FLAGS == -m64 -E -x assembler-with-cpp -include $(DEST_DIR_DEBUG)/AutoGen.h
    GCC:*_*_X64_ASM_FLAGS == -m64 -c -x assembler -imacros $(DEST_DIR_DEBUG)/AutoGen.h
 
-   GCC:*_*_*_DLINK2_FLAGS == -lpthread -ldl -lXext -lX11
+   GCC:*_*_*_DLINK2_FLAGS == -lpthread -ldl -lX11
 
 #
 # Need to do this link via gcc and not ld as the pathing to libraries changes from OS version to OS version
 #
    XCODE:*_*_IA32_DLINK_PATH == gcc
    XCODE:*_*_IA32_CC_FLAGS = -I$(WORKSPACE)/EmulatorPkg/Unix/Host/X11IncludeHack
-   XCODE:*_*_IA32_DLINK_FLAGS == -arch i386 -o $(BIN_DIR)/Host -L/usr/X11R6/lib -lXext -lX11 -framework Carbon
+   XCODE:*_*_IA32_DLINK_FLAGS == -arch i386 -o $(BIN_DIR)/Host -L/usr/local/lib -lX11 -framework Carbon
    XCODE:*_*_IA32_ASM_FLAGS == -arch i386 -g
 
    XCODE:*_*_X64_DLINK_PATH == gcc
-   XCODE:*_*_X64_DLINK_FLAGS == -o $(BIN_DIR)/Host -L/usr/X11R6/lib -lXext -lX11 -framework Carbon -Wl,-no_pie
+   XCODE:*_*_X64_DLINK_FLAGS == -o $(BIN_DIR)/Host -L/usr/local/lib -lX11 -framework Carbon -Wl,-no_pie
    XCODE:*_*_X64_ASM_FLAGS == -g
    XCODE:*_*_X64_CC_FLAGS = -O0 -target x86_64-apple-darwin -I$(WORKSPACE)/EmulatorPkg/Unix/Host/X11IncludeHack "-DEFIAPI=__attribute__((ms_abi))"

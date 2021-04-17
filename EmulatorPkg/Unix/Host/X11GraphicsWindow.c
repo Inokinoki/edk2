@@ -15,7 +15,6 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xos.h>
-#include <X11/extensions/XShm.h>
 #include <X11/keysym.h>
 #include <X11/cursorfont.h>
 
@@ -49,7 +48,7 @@ typedef struct {
   struct uga_drv_shift_mask r, g, b;
 
   int             use_shm;
-  XShmSegmentInfo xshm_info;
+  // XShmSegmentInfo xshm_info;
   XImage          *image;
   char            *Title;
 
@@ -94,6 +93,7 @@ fill_shift_mask (
   sm->csize = 8 - sm->size;
 }
 
+/*
 int
 TryCreateShmImage (
   IN  GRAPHICS_IO_PRIVATE *Drv
@@ -154,6 +154,7 @@ TryCreateShmImage (
   }
   return 1;
 }
+*/
 
 
 EFI_STATUS
@@ -185,9 +186,9 @@ X11Size (
   XResizeWindow (Drv->display, Drv->win, Width, Height);
 
   // Allocate image.
-  if (XShmQueryExtension(Drv->display) && TryCreateShmImage(Drv)) {
+  /*if (XQueryExtension(Drv->display) && TryCreateShmImage(Drv)) {
     Drv->use_shm = 1;
-  } else {
+  } else {*/
     Drv->use_shm = 0;
     if (Drv->depth > 16) {
       Drv->pixel_shift = 2;
@@ -204,7 +205,7 @@ X11Size (
                     Drv->width, Drv->height,
                     8 << Drv->pixel_shift, 0
                     );
-  }
+  // }
 
   Drv->line_bytes = Drv->image->bytes_per_line;
 
@@ -522,15 +523,15 @@ Redraw (
   IN  UINTN               Height
   )
 {
-  if (Drv->use_shm) {
+  /*if (Drv->use_shm) {
     XShmPutImage (
       Drv->display, Drv->win, Drv->gc, Drv->image, X, Y, X, Y, Width, Height, False
       );
-  } else {
+  } else {*/
     XPutImage (
       Drv->display, Drv->win, Drv->gc, Drv->image, X, Y, X, Y, Width, Height
       );
-  }
+  //}
   XFlush(Drv->display);
 }
 
@@ -998,12 +999,12 @@ X11GraphicsWindowClose (
   }
   XDestroyWindow (Drv->display, Drv->win);
   XCloseDisplay (Drv->display);
-
+/*
 #ifdef __APPLE__
   // Free up the shared memory
   shmctl (Drv->xshm_info.shmid, IPC_RMID, NULL);
 #endif
-
+*/
   free (Drv);
   return EFI_SUCCESS;
 }
